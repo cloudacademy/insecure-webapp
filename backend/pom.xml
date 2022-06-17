@@ -2,11 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cloudacademy</groupId>
-  <artifactId>webapp-insecure</artifactId>
+  <artifactId>insecure-webapp</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>webapp-insecure</name>
-  <url>http://maven.apache.org</url>
+  <name>insecure-webapp</name>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>

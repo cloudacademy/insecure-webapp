@@ -42,7 +42,7 @@ jobs:
         name: release-${{ env.RELEASE_VERSION }}
         path: | 
           ./frontend/release-${{ env.RELEASE_VERSION }}.tar.gz
-          ./backend/target/webapp-insecure-1.0-SNAPSHOT.jar
+          ./backend/target/insecure-webapp-1.0-SNAPSHOT.jar
 
     # RELEASE
     - name: Make Release
@@ -52,6 +52,6 @@ jobs:
         name: release-${{ env.RELEASE_VERSION }}
         files: |
           ./frontend/release-${{ env.RELEASE_VERSION }}.tar.gz
-          ./backend/target/webapp-insecure-1.0-SNAPSHOT.jar
+          ./backend/target/insecure-webapp-1.0-SNAPSHOT.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
