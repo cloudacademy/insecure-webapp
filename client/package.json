@@ -1,0 +1,36 @@
+{
+  "name": "react-router-v6-auth-demo",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@emotion/react": "11.9.0",
+    "@emotion/styled": "11.8.1",
+    "@mui/icons-material": "5.6.2",
+    "@mui/material": "5.6.2",
+    "axios": "^0.27.2",
+    "mui": "0.0.1",
+    "prismjs": "^1.28.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-router-dom": "6.3.0",
+    "react-scripts": "4.0.0",
+    "react-simple-code-editor": "^0.11.2"
+  },
+  "devDependencies": {
+    "@babel/runtime": "7.13.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
