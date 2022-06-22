@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (localStorage["user"]) {
-      console.log("useEffect called...");
       console.log(localStorage);
       if (localStorage.getItem("user") != 'null') {
         setUser(localStorage.getItem("user"));

@@ -13,7 +13,7 @@ export const AsciiArtPage = () => {
     async function createArt() {
         var URL = `http://${APIHOSTPORT}/asciiart`;
         var token = window.localStorage.getItem("user");
-        console.log("t1:" + token);
+
         const response = await fetch(URL, {
           method: "POST",
           headers: {

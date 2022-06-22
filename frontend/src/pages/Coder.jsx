@@ -21,7 +21,7 @@ print(number_list)`
     async function runCode() {
         var URL = `http://${APIHOSTPORT}/execute`;
         var token = window.localStorage.getItem("user");
-        console.log("t1:" + token);
+
         const response = await fetch(URL, {
           method: "POST",
           headers: {

@@ -16,7 +16,7 @@ export const CommentsPage = () => {
   async function getComments() {
     var URL = `http://${APIHOSTPORT}/comments`;
     var token = window.localStorage.getItem("user");
-    console.log("t1:" + token);
+
     const response = await fetch(URL, {
       method: "GET",
       headers: {
@@ -31,7 +31,7 @@ export const CommentsPage = () => {
   async function addComment(newComment) {
     var URL = `http://${APIHOSTPORT}/comments`;
     var token = window.localStorage.getItem("user");
-    console.log("t2:" + token);
+
     const response = await fetch(URL, {
       method: "POST",
       headers: {
@@ -49,7 +49,6 @@ export const CommentsPage = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log( 'Comment:', comment);
     addComment(comment);
   }
 
