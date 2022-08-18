@@ -2,18 +2,19 @@ import { createContext, useContext, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 import axios from 'axios';
+import Constants from "../Constants";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const [user, setUser] = useLocalStorage(Constants.SESSION_KEY_NAME, null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage["user"]) {
+    if (localStorage[Constants.SESSION_KEY_NAME]) {
       console.log(localStorage);
-      if (localStorage.getItem("user") != 'null') {
-        setUser(localStorage.getItem("user"));
+      if (localStorage.getItem(Constants.SESSION_KEY_NAME) != 'null') {
+        setUser(localStorage.getItem(Constants.SESSION_KEY_NAME));
       }
     }
   }, []);
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem(Constants.SESSION_KEY_NAME);
     navigate("/", { replace: true });
   };
 

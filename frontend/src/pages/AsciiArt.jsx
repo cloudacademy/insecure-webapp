@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Constants from "../Constants";
 
 export const AsciiArtPage = () => {
     const [text, setText] = useState('');
@@ -12,7 +13,7 @@ export const AsciiArtPage = () => {
 
     async function createArt() {
         var URL = `http://${APIHOSTPORT}/asciiart`;
-        var token = window.localStorage.getItem("user");
+        var token = window.localStorage.getItem(Constants.SESSION_KEY_NAME);
 
         const response = await fetch(URL, {
           method: "POST",

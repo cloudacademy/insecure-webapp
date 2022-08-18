@@ -7,6 +7,7 @@ import 'prismjs/themes/prism.css';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Constants from "../Constants";
 
 export const CoderPage = () => {
     const [code, setCode] = useState(
@@ -20,7 +21,7 @@ print(number_list)`
 
     async function runCode() {
         var URL = `http://${APIHOSTPORT}/execute`;
-        var token = window.localStorage.getItem("user");
+        var token = window.localStorage.getItem(Constants.SESSION_KEY_NAME);
 
         const response = await fetch(URL, {
           method: "POST",
