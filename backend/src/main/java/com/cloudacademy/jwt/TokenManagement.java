@@ -27,7 +27,7 @@ public class TokenManagement {
         }
     }
     
-    public static void authenticateJWTToken(String token) {
+    public static String authenticateJWTToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -36,9 +36,10 @@ public class TokenManagement {
             DecodedJWT jwt = verifier.verify(token);
             var name = jwt.getClaim("name");
             System.out.println("name: " + name);
+            return name.asString();
         } catch (JWTVerificationException e){
             e.printStackTrace();
             throw new Unauthorized(e.getMessage());
-        }        
+        }
     }
 }

@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Constants from "../Constants";
 
 export const CommentsPage = () => {
   const [comments, setComments] = useState([]);
@@ -15,7 +16,7 @@ export const CommentsPage = () => {
 
   async function getComments() {
     var URL = `http://${APIHOSTPORT}/comments`;
-    var token = window.localStorage.getItem("user");
+    var token = window.localStorage.getItem(Constants.SESSION_KEY_NAME);
 
     const response = await fetch(URL, {
       method: "GET",
@@ -30,7 +31,7 @@ export const CommentsPage = () => {
 
   async function addComment(newComment) {
     var URL = `http://${APIHOSTPORT}/comments`;
-    var token = window.localStorage.getItem("user");
+    var token = window.localStorage.getItem(Constants.SESSION_KEY_NAME);
 
     const response = await fetch(URL, {
       method: "POST",
@@ -38,7 +39,7 @@ export const CommentsPage = () => {
         "Content-Type": "application/json",
         "x-auth-token": token
       },
-      body: JSON.stringify({username: "jeremy", body: newComment})
+      body: JSON.stringify({body: newComment})
     });
 
     getComments();

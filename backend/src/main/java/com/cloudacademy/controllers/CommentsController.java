@@ -32,11 +32,10 @@ public class CommentsController {
   Comment createComment(@RequestHeader(value="x-auth-token") String token, @RequestBody CommentRequest input) {
     System.out.println("/comments POST called...");
     System.out.println("token: " + token);
-    System.out.println("input.username: " + input.username);
     System.out.println("input.body: " + input.body);
-    
-    TokenManagement.authenticateJWTToken(token);
-    var newComment = CommentService.createComment(input.username, input.body);
+
+    var userName = TokenManagement.authenticateJWTToken(token);
+    var newComment = CommentService.createComment(userName, input.body);
 
     return newComment;
   }
