@@ -1,0 +1,35 @@
+FROM debian:bullseye-slim
+
+RUN apt-get update && \
+    apt-get install -y curl sudo gpg lsb-release uuid-runtime
+
+RUN curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+
+RUN apt-get update && \
+    apt-get install -y postgresql-12 postgresql-client-12
+
+RUN echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
+RUN sed -i "s/127\.0\.0\.1\/32/all/g" /etc/postgresql/12/main/pg_hba.conf
+
+#prepare schema and initial data
+RUN echo "CREATE TABLE IF NOT EXISTS users(user_id VARCHAR (36) PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, password VARCHAR (50) NOT NULL, created_on TIMESTAMP NOT NULL, last_login TIMESTAMP);" >> db.script.sql && \
+    echo "CREATE TABLE IF NOT EXISTS comments(id VARCHAR (36) PRIMARY KEY, username VARCHAR (36), body VARCHAR (500), created_on TIMESTAMP NOT NULL);" >> db.script.sql && \
+    echo "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'admin', '$(echo -n v3rysecretpassword | md5sum | cut -b-32)', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'alice', '$(echo -n password1 | md5sum | cut -b-32)', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'bob', '$(echo -n password2 | md5sum | cut -b-32)', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO users (user_id, username, password, created_on) VALUES ('$(uuidgen)', 'joe', '$(echo -n password3 | md5sum | cut -b-32)', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'bob', 'good times ahead', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'alice', 'security review required', current_timestamp);" >> db.script.sql && \
+    echo "INSERT INTO comments (id, username, body, created_on) VALUES ('$(uuidgen)', 'joe', 'lets roll', current_timestamp);" >> db.script.sql
+
+USER postgres
+
+RUN /etc/init.d/postgresql start && \
+    psql --command "ALTER USER postgres PASSWORD 'cloudacademy';" && \
+    createdb -O postgres cloudacademy && \
+    psql -d cloudacademy -f db.script.sql
+
+EXPOSE 5432
+
+CMD ["/usr/lib/postgresql/12/bin/postgres", "-D", "/var/lib/postgresql/12/main", "-c", "config_file=/etc/postgresql/12/main/postgresql.conf"]
