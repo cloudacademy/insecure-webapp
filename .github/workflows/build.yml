@@ -22,7 +22,7 @@ jobs:
         cd ./frontend
         npm install
         npm run build
-        tar -czf release-${{ env.RELEASE_VERSION }}.tar.gz build
+        tar -czf frontend-${{ env.RELEASE_VERSION }}.tar.gz build
 
     # BACKEND
     - name: Set up JDK 17
@@ -33,7 +33,9 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B clean package spring-boot:repackage --file ./backend/pom.xml
+      run: |
+        mvn -B versions:set -DnewVersion=${{ env.RELEASE_VERSION }} -DgenerateBackupPoms=false --file ./backend/pom.xml
+        mvn -B clean package spring-boot:repackage --file ./backend/pom.xml
 
     # ARTIFACTS
     - name: Upload Artifact
@@ -41,8 +43,8 @@ jobs:
       with:
         name: release-${{ env.RELEASE_VERSION }}
         path: | 
-          ./frontend/release-${{ env.RELEASE_VERSION }}.tar.gz
-          ./backend/target/insecure-webapp-1.0-SNAPSHOT.jar
+          ./frontend/frontend-${{ env.RELEASE_VERSION }}.tar.gz
+          ./backend/target/backend-${{ env.RELEASE_VERSION }}.jar
 
     # RELEASE
     - name: Make Release
@@ -51,7 +53,7 @@ jobs:
       with:
         name: release-${{ env.RELEASE_VERSION }}
         files: |
-          ./frontend/release-${{ env.RELEASE_VERSION }}.tar.gz
-          ./backend/target/insecure-webapp-1.0-SNAPSHOT.jar
+          ./frontend/frontend-${{ env.RELEASE_VERSION }}.tar.gz
+          ./backend/target/backend-${{ env.RELEASE_VERSION }}.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
